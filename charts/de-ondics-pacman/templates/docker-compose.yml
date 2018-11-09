@@ -1,0 +1,28 @@
+version: '2'
+services:
+  de-ondics-pacman-app:
+    image: scaleit-app-pool.ondics.de:5000/scaleit-app-pool/de-ondics-pacman-app:1.8
+    restart: always
+    networks:
+      - pacman
+    labels:
+      rap.host: ${DOMAINPREFIX}
+  de-ondics-pacman-admin:
+    image: scaleit-app-pool.ondics.de:5000/scaleit-app-pool/de-ondics-pacman-admin:1.8
+    restart: always
+    labels:
+      rap.host: admin.${DOMAINPREFIX}
+    networks:
+      - pacman
+      - scaleit
+    environment:
+      - HOSTMACADDR=${MACADDR}
+      - ETCD_SERVER=${IPADDR}
+      - LICENCE_MANAGEMENT_SERVER=${IPADDR}
+      - HOSTIPADDR=${IPADDR}
+
+networks:
+  pacman:
+  scaleit:
+
+

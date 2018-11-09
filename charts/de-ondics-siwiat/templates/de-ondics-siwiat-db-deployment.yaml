@@ -1,0 +1,56 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 ()
+  creationTimestamp: null
+  labels:
+    io.kompose.service: de-ondics-siwiat-db
+  name: de-ondics-siwiat-db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: de-ondics-siwiat-db
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_DATABASE
+          value: scaleit_siwiat
+        - name: MYSQL_PASSWORD
+          value: scaleit
+        - name: MYSQL_ROOT_PASSWORD
+          value: root
+        - name: MYSQL_USER
+          value: scaleit
+        image: scaleit-app-pool.ondics.de:5000/scaleit-app-pool/de-ondics-siwiat-db:1.8
+        name: de-ondics-siwiat-db
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: mysqlvolume
+        - mountPath: /etc/localtime
+          name: de-ondics-siwiat-db-claim1
+          readOnly: true
+        - mountPath: /etc/timezone
+          name: de-ondics-siwiat-db-claim2
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: mysqlvolume
+        persistentVolumeClaim:
+          claimName: mysqlvolume
+      - name: de-ondics-siwiat-db-claim1
+        persistentVolumeClaim:
+          claimName: de-ondics-siwiat-db-claim1
+          readOnly: true
+      - name: de-ondics-siwiat-db-claim2
+        persistentVolumeClaim:
+          claimName: de-ondics-siwiat-db-claim2
+          readOnly: true
+status: {}

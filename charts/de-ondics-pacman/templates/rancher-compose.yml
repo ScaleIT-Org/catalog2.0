@@ -1,0 +1,37 @@
+.catalog:
+  name: ScaleIT-Pacman
+  version: "v1.8.0-SSO"
+  description: "ScaleIT Pacman mit SSO Unterstützung"
+  minimum_rancher_version: v1.1.0
+  questions:
+    - variable: DOMAINPREFIX
+      description: "Name für die URL"
+      label: "Name URL"
+      type: "string"
+      required: true
+      default: "pacman"
+    - variable: IPADDR
+      description: "Adresse des lokalen Servers (fuer etcd, ...)"
+      label: "IP-Adresse des Servers"
+      type: "string"
+      required: true
+      default: "10.0.0.200"
+    - variable: MACADDR
+      description: "MAC-Adresse des lokalen Servers"
+      label: "MAC-Adresse des Servers"
+      type: "string"
+      required: true
+      default: "123456"
+    - variable: LICENCE_MANAGEMEMT_PORT
+      description: "Port des Licence-Managers (egal, wenn licence management deaktiviert ist)"
+      label: "Port des Licence-Manager Servers"
+      type: "string"
+      required: true
+      default: "49090"
+    - variable: ETCD_PORT
+      description: "Port des ETCD-Servers"
+      label: "Port des ETCD Servers"
+      type: "string"
+      required: true
+      default: "49501"
+

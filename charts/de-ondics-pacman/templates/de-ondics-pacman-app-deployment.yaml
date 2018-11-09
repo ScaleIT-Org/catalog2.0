@@ -1,0 +1,26 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 ()
+    rap.host: ""
+  creationTimestamp: null
+  labels:
+    io.kompose.service: de-ondics-pacman-app
+  name: de-ondics-pacman-app
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: de-ondics-pacman-app
+    spec:
+      containers:
+      - image: scaleit-app-pool.ondics.de:5000/scaleit-app-pool/de-ondics-pacman-app:1.8
+        name: de-ondics-pacman-app
+        resources: {}
+      restartPolicy: Always
+status: {}

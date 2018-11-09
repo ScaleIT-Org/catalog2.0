@@ -1,0 +1,70 @@
+version: '2'
+services:
+  de-ondics-siwiat-app:
+    image: scaleit-app-pool.ondics.de:5000/scaleit-app-pool/de-ondics-siwiat-app:1.8
+    networks:
+      siwiat:
+        aliases:
+          - scaleit-siwiat
+    devices:
+      - "/dev/ttyS0:/dev/ttyS0"
+      - "/dev/ttyS1:/dev/ttyS1"
+      - "/dev/ttyS2:/dev/ttyS2"
+      - "/dev/ttyS3:/dev/ttyS3"
+    depends_on:
+      - de-ondics-siwiat-db
+    environment:
+      ENABLE_ENV_FILE: 1
+    ports:
+      - "51510:80"
+    volumes:
+      - siwiatmodules:/var/www/html/websites/ab/protected/modules
+      - siwiatlicence:/var/www/html/websites/licence
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    restart: always
+  de-ondics-siwiat-cron:
+    image: scaleit-app-pool.ondics.de:5000/scaleit-app-pool/de-ondics-siwiat-cron:1.8
+    networks:
+      - siwiat
+    depends_on:
+      - de-ondics-siwiat-app
+    restart: always
+  de-ondics-siwiat-db:
+    image: scaleit-app-pool.ondics.de:5000/scaleit-app-pool/de-ondics-siwiat-db:1.8
+    networks:
+      siwiat:
+        aliases:
+          - siwiatdb
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: scaleit_siwiat
+      MYSQL_USER: scaleit
+      MYSQL_PASSWORD: scaleit
+    volumes:
+      - mysqlvolume:/var/lib/mysql
+      - "/etc/localtime:/etc/localtime:ro"
+      - "/etc/timezone:/etc/timezone:ro"
+    restart: always
+  db-ondics-siwiat-admin:
+    image: scaleit-app-pool.ondics.de:5000/scaleit-app-pool/db-ondics-siwiat-admin:1.8
+    networks:
+      - siwiat
+      - scaleit
+    environment:
+      - HOSTMACADDR=${MACADDR}
+      - ETCD_SERVER=${IPADDR}
+      - LICENCE_MANAGEMENT_SERVER=${IPADDR}
+      - HOSTIPADDR=${IPADDR}
+    restart: always
+    ports:
+      - "51511:80"
+    restart: always
+volumes:
+  siwiatmodules:
+  siwiatlicence:
+  mysqlvolume:
+networks:
+  siwiat:
+  scaleit:
+

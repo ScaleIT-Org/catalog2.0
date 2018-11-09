@@ -1,0 +1,35 @@
+.catalog:
+  name: ScaleIT-SSO
+  version: "v1.0.0"
+  description: "ScaleIT SSO"
+  minimum_rancher_version: v1.1.0
+  questions:
+    - variable: PLATFORM_DOMAIN
+      description: ""
+      label: "Domain der Plattform"
+      default: "scaleit.intern"
+      type: "string"
+      required: true
+    - variable: SSO_VERIFY_SSL
+      description: "SSL Zertifikat Verifizieren(Geht nur bei Selbsterstellten Zertifikate)"
+      label: "SSL Zertifikat Verifizieren"
+      default: "yes"
+      type: "enum"
+      options: # List of options if using type of `enum`
+        - "yes"
+        - "no"
+      required: true
+    # - variable: KEYCLOAK_USER
+    #   description: "Nutzername für KeyCloak"
+    #   label: "Nutzer Keycloak"
+    #   type: "string"
+    #   required: true
+    #   default: "admin"
+    # - variable: KEYCLOAK_PASSWORD
+    #   description: "Erstpasswort für Keycloak"
+    #   label: "Passwort Keycloak"
+    #   type: "string"
+    #   required: true
+    #   default: "admin"
+    
+

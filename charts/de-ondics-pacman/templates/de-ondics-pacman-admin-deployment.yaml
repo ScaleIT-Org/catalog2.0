@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 ()
+    rap.host: admin.
+  creationTimestamp: null
+  labels:
+    io.kompose.service: de-ondics-pacman-admin
+  name: de-ondics-pacman-admin
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: de-ondics-pacman-admin
+    spec:
+      containers:
+      - env:
+        - name: ETCD_SERVER
+        - name: HOSTIPADDR
+        - name: HOSTMACADDR
+        - name: LICENCE_MANAGEMENT_SERVER
+        image: scaleit-app-pool.ondics.de:5000/scaleit-app-pool/de-ondics-pacman-admin:1.8
+        name: de-ondics-pacman-admin
+        resources: {}
+      restartPolicy: Always
+status: {}
